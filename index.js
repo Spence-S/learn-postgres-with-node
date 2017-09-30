@@ -1,12 +1,14 @@
 require('dotenv').config();
+const logger = require('morgan');
 const express = require('express');
+const routes = require('./routes');
 const db = require('./db');
 
 const app = express();
 
-app.get('/', async (req, res) => {
-  const users = await db.query('SELECT * FROM users');
-  res.send(users);
-});
+app.use(logger('dev'));
+
+// Select statement routes
+app.use('/select', routes.selectRoutes);
 
 app.listen(3333, console.log('Listening on port 3333'));
