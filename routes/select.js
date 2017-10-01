@@ -7,19 +7,19 @@ const router = express.Router();
 // returns all data from a table
 router.get('/', async (req, res, next) => {
   const actorTable = await db.query('SELECT * FROM actor');
-  res.send(actorTable);
+  res.json(actorTable);
 });
 
 // SELECT specific columns from table -- comma seperated columns
 router.get('/columns', async (req, res, next) => {
   const nameColumns = await db.query('SELECT first_name,last_name FROM actor');
-  res.send(nameColumns);
+  res.json(nameColumns);
 });
 
 // SELECT DISTINCT -- same as select but doesn't return any duplicate values
 router.get('/distinct', async (req, res, next) => {
   const ratingTypes = await db.query('SELECT DISTINCT rating FROM film');
-  res.send(ratingTypes);
+  res.json(ratingTypes);
 });
 
 //SELECT WHERE -- Challenge 1
@@ -27,7 +27,7 @@ router.get('/where', async (req, res, next) => {
   const nancyThomasEmail = await db.query(
     "SELECT email FROM customer WHERE first_name = 'Nancy' AND last_name = 'Thomas'"
   );
-  res.send(nancyThomasEmail);
+  res.json(nancyThomasEmail);
 });
 
 //SELECT WHERE -- Challenge 2

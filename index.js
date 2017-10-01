@@ -12,3 +12,5 @@ app.use(logger('dev'));
 app.use('/select', routes.selectRoutes);
 
 app.listen(3333, console.log('Listening on port 3333'));
+
+module.exports = app;
