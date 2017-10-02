@@ -1,5 +1,5 @@
-const app = require('../');
 const { Pool } = require('pg');
+const chalk = require('chalk');
 
 const pool = new Pool();
 
@@ -15,7 +15,9 @@ module.exports = {
       pool.query(text, params, (err, res) => {
         const duration = Date.now() - start;
         console.log(
-          `executed query: ${text}, ${duration} ms, rows: ${res.rowCount}`
+          `QUERY ${chalk.blue(text)}, ${duration < 100
+            ? chalk.green(duration)
+            : chalk.red(duration)} ms, rows: ${chalk.yellow(res.rowCount)}`
         );
         if (err) reject(err);
         resolve(res);

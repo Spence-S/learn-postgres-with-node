@@ -35,19 +35,19 @@ router.get('/where2', async (req, res, next) => {
   const outlawHankyDescription = await db.query(
     "SELECT description FROM film WHERE title = 'Outlaw Hanky'"
   );
-  res.send(outlawHankyDescription);
+  res.json(outlawHankyDescription);
 });
 
 router.get('/where3', async (req, res, next) => {
   const numFromAddress = await db.query(
     "SELECT phone FROM address WHERE address = '259 Ipoh Drive'"
   );
-  res.send(numFromAddress);
+  res.json(numFromAddress);
 });
 
 router.get('/count', async (req, res, next) => {
   const count = await db.query('SELECT COUNT(*) FROM payment');
-  res.send(count);
+  res.json(count);
 });
 
 module.exports = router;
