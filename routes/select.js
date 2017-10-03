@@ -50,4 +50,49 @@ router.get('/count', async (req, res, next) => {
   res.json(count);
 });
 
+router.get('/orderby', async (req, res, next) => {
+  const topTenCustomers = await db.query(
+    'SELECT customer_id, amount FROM payment ORDER BY amount DESC LIMIT 10'
+  );
+  res.json(topTenCustomers);
+});
+
+router.get('/orderby2', async (req, res, next) => {
+  const fiveFilms = await db.query(
+    'SELECT film_id, title FROM film ORDER BY film_id LIMIT 5'
+  );
+  res.json(fiveFilms);
+});
+
+// How many payment transactions were greater than 5.00
+router.get('/genchallenge1', async (req, res, next) => {
+  const transGreaterThanFive = await db.query(
+    'SELECT COUNT(amount) FROM payment WHERE amount > 5'
+  );
+  res.json(transGreaterThanFive);
+});
+
+// How many actors have the first name that starts with the letter p
+router.get('/genchallenge2', async (req, res, next) => {
+  const actorsWithLetterP = await db.query(
+    "SELECT count(first_name) from actor WHERE first_name LIKE 'P%'"
+  );
+  res.json(actorsWithLetterP);
+});
+
+// How many films have a rating of R and a replacement cost between 5 and 15 dollars
+router.get('/genchallenge3', async (req, res, next) => {
+  const ratingR = await db.query(
+    "SELECT count(*) from film WHERE rating='R' AND replacement_cost BETWEEN 5 AND 15"
+  );
+  res.json(ratingR);
+});
+
+router.get('/groupby', async (req, res, next) => {
+  const staffMember = await db.query(
+    'SELECT staff_id, COUNT(payment_id), SUM(amount) FROM payment GROUP BY staff_id'
+  );
+  res.json(staffMember);
+});
+
 module.exports = router;
