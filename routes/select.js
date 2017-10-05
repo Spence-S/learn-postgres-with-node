@@ -95,4 +95,32 @@ router.get('/groupby', async (req, res, next) => {
   res.json(staffMember);
 });
 
+router.get('/groupby2', async (req, res, next) => {
+  const costByRating = await db.query(
+    'SELECT rating, ROUND(AVG(replacement_cost),2) FROM film GROUP BY rating'
+  );
+  res.json(costByRating);
+});
+
+router.get('/groupby3', async (req, res, next) => {
+  const bestCustomer = await db.query(
+    'SELECT customer_id, SUM(amount) FROM payment GROUP BY customer_id ORDER BY SUM(amount) DESC LIMIT 5'
+  );
+  res.json(bestCustomer);
+});
+
+router.get('/having', async (req, res, next) => {
+  const eligibleCustomers = await db.query(
+    'SELECT customer_id, count(*) FROM payment GROUP BY customer_id having count(*)>40'
+  );
+  res.json(eligibleCustomers);
+});
+
+router.get('/having2', async (req, res, next) => {
+  const avgLongRental = await db.query(
+    'SELECT rating, AVG(rental_duration) FROM film GROUP BY rating HAVING AVG(rental_duration) > 5'
+  );
+  res.json(avgLongRental);
+});
+
 module.exports = router;
